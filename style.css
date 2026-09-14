@@ -1446,11 +1446,15 @@ body.theme-light .globe-deco {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 0;
   width: 100%;
   max-width: 860px;
   margin: 0 auto;
   transition: gap 0.4s var(--ease);
+}
+
+.globe-interactive-wrap.has-skill-active {
+  gap: 28px;
 }
 
 .globe-card {
@@ -1516,9 +1520,12 @@ body.theme-light .globe-hint strong {
 
 .orbit-ring {
   position: absolute;
-  width: 290px;
-  height: 290px;
-  border: 1px dashed rgba(255, 255, 255, 0.14);
+  top: 50%;
+  left: 50%;
+  width: 270px;
+  height: 270px;
+  transform: translate(-50%, -50%);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
   border-radius: 50%;
   animation: orbit-spin 32s linear infinite;
   transition: width 0.35s var(--ease), height 0.35s var(--ease), border-color 0.3s var(--ease);
@@ -1530,8 +1537,8 @@ body.theme-light .orbit-ring {
 }
 
 @keyframes orbit-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .orbit-icon {
@@ -1588,9 +1595,10 @@ body.theme-light .orbit-icon.is-active {
 /* ---- Detached Separate Skill Detail Card (ไม่เชื่อมกัน) ---- */
 .skill-detail-card {
   position: relative;
-  width: 320px;
+  width: 0;
   max-width: 100%;
-  padding: 22px 20px;
+  padding: 22px 0;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
   background: rgba(8, 11, 18, 0.94);
@@ -1602,11 +1610,14 @@ body.theme-light .orbit-icon.is-active {
   pointer-events: none;
   transform: translateX(20px) scale(0.96);
   transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0.35s,
+    width 0.4s var(--ease), padding 0.4s var(--ease),
     background-color 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
   flex-shrink: 0;
 }
 
 .skill-detail-card.is-active {
+  width: 320px;
+  padding: 22px 20px;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
