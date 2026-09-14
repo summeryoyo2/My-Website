@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>0ii.dev — Portfolio</title>
+  <meta name="description" content="Personal portfolio website — Developer" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='58' font-weight='700' fill='%23ffffff' text-anchor='middle'%3E%3C/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Particle Canvas Background -->
+  <canvas id="particleCanvas"></canvas>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-bracket">&lt;</span><span class="logo-name">0ii.dev</span><span class="logo-bracket">
+          &gt;</span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li class="nav-indicator nav-indicator-pill" id="navIndicator" aria-hidden="true"></li>
+        <li><a href="#hero" class="nav-link active" data-en="Home" data-th="Home">Home</a></li>
+        <li><a href="#about" class="nav-link" data-en="About" data-th="About">About</a></li>
+        <li><a href="#globe" class="nav-link" data-en="Skills" data-th="Skills">Skills</a></li>
+        <li><a href="#contact" class="nav-link" data-en="Contact" data-th="Contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Settings Toggle & Dropdown -->
+        <div class="settings-wrapper" id="settingsWrapper">
+          <button class="settings-btn" id="settingsBtn" type="button" aria-label="Settings" aria-expanded="false" aria-haspopup="true">
+            <svg class="settings-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M14.69 2.79a1 1 0 0 0-.98-.79h-3.42a1 1 0 0 0-.98.79l-.36 1.69c-.46.2-.9.45-1.3.75L6.01 4.7a1 1 0 0 0-1.18.45L3.12 8.11a1 1 0 0 0 .2 1.25l1.28 1.16a7.27 7.27 0 0 0 0 1.5l-1.28 1.16a1 1 0 0 0-.2 1.25l1.71 2.96a1 1 0 0 0 1.18.45l1.64-.53c.4.3.84.55 1.3.75l.36 1.69a1 1 0 0 0 .98.79h3.42a1 1 0 0 0 .98-.79l.36-1.69c.46-.2.9-.45 1.3-.75l1.64.53a1 1 0 0 0 1.18-.45l1.71-2.96a1 1 0 0 0-.2-1.25l-1.28-1.16a7.27 7.27 0 0 0 0-1.5l1.28-1.16a1 1 0 0 0 .2-1.25l-1.71-2.96a1 1 0 0 0-1.18-.45l-1.64.53c-.4-.3-.84-.55-1.3-.75l-.36-1.69ZM12 14.75a3.48 3.48 0 1 0 0-6.96 3.48 3.48 0 0 0 0 6.96Z"/>
+            </svg>
+          </button>
+          <div class="settings-dropdown" id="settingsDropdown" hidden>
+            <div class="settings-item">
+              <span class="settings-item-label" data-en="Theme" data-th="ธีม">Theme</span>
+              <button class="theme-switch" id="themeSwitch" type="button" aria-label="Toggle Theme" aria-pressed="false">
+                <span class="theme-icon theme-icon-moon" aria-hidden="true">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 14.6A8.5 8.5 0 0 1 9.4 3a7 7 0 1 0 11.6 11.6z" />
+                  </svg>
+                </span>
+                <span class="theme-icon theme-icon-sun" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+                  </svg>
+                </span>
+              </button>
+            </div>
+            <div class="settings-item settings-divider">
+              <span class="settings-item-label" data-en="Nav Style" data-th="สไตล์เมนู">Nav Style</span>
+              <div class="nav-style-switch" id="navStyleSwitch" role="group" aria-label="Nav Indicator Style">
+                <button type="button" class="nav-style-btn active" data-style="pill" data-en="Pill" data-th="แคปซูล">Pill</button>
+                <button type="button" class="nav-style-btn" data-style="line" data-en="Line" data-th="เส้นใต้">Line</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Toggle -->
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle Language">
+          <span class="lang-label" id="langLabel">TH</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero" id="hero">
+    <img class="hero-decor hero-decor-falling" src="img/idk/hero-falling.png" alt="" aria-hidden="true" />
+    <img class="hero-decor hero-decor-crowd" src="img/idk/hero-crowd.png" alt="" aria-hidden="true" />
+    <img class="hero-decor hero-decor-black-hole" src="img/idk/hero-black-hole.png" alt="" aria-hidden="true" />
+    <img class="hero-decor hero-decor-headphones" src="img/idk/hero-headphones.png" alt="" aria-hidden="true" />
+    <img class="hero-decor hero-decor-butterfly" src="img/idk/hero-butterfly.png" alt="" aria-hidden="true" />
+
+    <div class="hero-content">
+      <p class="hero-kicker">
+        <span data-en="Sci Com — grade 12" data-th="นักเรียน Sci Com — ม.6">Sci Com — grade 12</span>
+      </p>
+
+      <div class="hero-intro-line">
+        <span data-en="hey — i'm summer" data-th="เฮ้ — ผมซัมเมอร์">hey — i'm summer</span>
+        <img class="hero-pixel-cat" src="img/idk/hero-pixel-cat.png" alt="" aria-hidden="true" />
+      </div>
+
+      <h1 class="hero-title">
+        <span class="hero-name-row">
+          <span class="hero-typed" id="typewriter"></span>
+          <span class="typed-cursor">|</span>
+        </span>
+      </h1>
+
+      <p class="hero-desc"
+        data-en="Sci Com student in grade 12. into computers, systems, and building stuff. this site is just me dumping what i mess with."
+        data-th="นักเรียนสาย Sci Com ชั้น ม.6 ที่ชอบคอมพิวเตอร์ ระบบ และการสร้างของต่าง ๆ เว็บนี้คือพื้นที่รวมสิ่งที่ผมกำลังลองทำ">
+        Sci Com student in grade 12. into computers, systems, and building stuff. this site is just me dumping what i mess with.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#about" class="btn-primary">
+          <span data-en="more about me" data-th="เกี่ยวกับผม">more about me</span>
+        </a>
+        <a href="https://github.com/summeryoyo4" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          <span>Github</span>
+        </a>
+      </div>
+
+      <!-- Stats Strip -->
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num" data-count="5">5</span><span class="stat-suffix"></span>
+          <span class="stat-label" data-en="CTFs tried" data-th="CTF ที่ลอง">CTFs tried</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat stat-dedication" id="dedication-stat">
+          <div class="stat-value-wrap">
+            <span class="stat-num" id="dedication-num" data-count="999" data-dedication="true">0</span><span class="stat-suffix" id="dedication-suffix">%</span>
+            <span class="stat-inf" id="dedication-inf">inf</span>
+            <div class="glass-crack-container" id="glass-crack"></div>
+          </div>
+          <span class="stat-label" data-en="Assiduity" data-th="ความมุ่งมั่น">Assiduity</span>
+        </div>
+      </div>
+    </div>
+    <!-- Fullscreen flash overlay for dedication effect -->
+    <div class="inf-flash-overlay" id="inf-flash-overlay"></div>
+
+    <!-- Code Card -->
+    <div class="hero-visual">
+      <div class="code-window">
+        <div class="code-titlebar">
+          <div class="window-dots">
+            <span class="wdot wdot-r"></span>
+            <span class="wdot wdot-y"></span>
+            <span class="wdot wdot-g"></span>
+          </div>
+          <span class="code-tab">me.py</span>
+        </div>
+        <pre class="code-content"><code><span class="ck">class</span> <span class="cv">Me</span>:
+  <span class="cp">name</span>   = <span class="cs">"summer"</span>
+  <span class="cp">role</span>   = <span class="cs">"Sci Com student"</span>
+  <span class="cp">grade</span>  = <span class="cb">12</span>
+  <span class="cp">stack</span>  = <span class="cs">["python", "c", "html"]</span>
+  <span class="cp">status</span> = <span class="cs">"still in high school"</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT SECTION ==================== -->
+  <section class="section" id="about">
+    <img class="section-decor about-decor-falling" src="img/idk/about-falling.png" alt="" aria-hidden="true" />
+    <img class="section-decor about-decor-clock" src="img/idk/about-clock.png" alt="" aria-hidden="true" />
+    <img class="section-decor about-decor-butterflies" src="img/idk/about-butterflies.png" alt="" aria-hidden="true" />
+    <img class="section-decor about-decor-headphones" src="img/idk/about-headphones.png" alt="" aria-hidden="true" />
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-kicker">
+          <span data-en="about" data-th="เกี่ยวกับ">about</span>
+        </p>
+        <h2 class="section-title">
+          <span data-en="who " data-th="ผมคือ">who </span><span class="text-accent" data-en="am i?"
+            data-th="ใคร?">am i?</span>
+        </h2>
+        <p class="section-desc"
+          data-en="grade 12 Sci Com. i like poking at how computers actually work — still learning, still building."
+          data-th="ม.6 สาย Sci Com ชอบแกะดูว่าคอมพิวเตอร์ทำงานยังไงจริงๆ ยังเรียนอยู่ ยังสร้างของอยู่เรื่อยๆ">
+          grade 12 Sci Com. i like poking at how computers actually work — still learning, still building.
+        </p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card about-card-tall reveal-card">
+          <span class="about-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="13" rx="1.5" />
+              <path d="M8 21h8M12 17v4" />
+            </svg>
+          </span>
+          <h3 data-en="experience" data-th="ประสบการณ์">experience</h3>
+          <p data-en="not much pro experience yet — mostly self-taught, CTFs, and breaking my own stuff until it clicks."
+            data-th="ยังไม่มีประสบการณ์ทำงานจริงเท่าไหร่ ส่วนใหญ่เรียนรู้เอง เล่น CTF และพังของตัวเองไปเรื่อยๆ จนกว่าจะเข้าใจ">not
+            much pro experience yet — mostly self-taught, CTFs, and breaking my own stuff until it clicks.</p>
+        </div>
+        <div class="about-card reveal-card">
+          <span class="about-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="8" />
+              <circle cx="12" cy="12" r="3.4" />
+            </svg>
+          </span>
+          <h3 data-en="goal" data-th="เป้าหมาย">goal</h3>
+          <p data-en="finish grade 12, get better at code, maybe go further in computer science."
+            data-th="เรียน ม.6 ให้จบ เก่งโค้ดขึ้น แล้วอาจไปต่อทางคอมพิวเตอร์">finish grade 12, get better at code, maybe
+            go further in computer science.</p>
+        </div>
+        <div class="about-card reveal-card">
+          <span class="about-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+              <circle cx="6.5" cy="6.5" r="1.9" />
+              <circle cx="17.5" cy="6.5" r="1.9" />
+              <circle cx="6.5" cy="17.5" r="1.9" />
+              <circle cx="17.5" cy="17.5" r="1.9" />
+            </svg>
+          </span>
+          <h3 data-en="into" data-th="สนใจ">into</h3>
+          <p data-en="systems, networks, and why things break."
+            data-th="ระบบ เน็ตเวิร์ก และทำไมของถึงพัง">systems, networks, and why things break.</p>
+        </div>
+        <div class="about-card about-card-wide reveal-card">
+          <span class="about-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+            </svg>
+          </span>
+          <h3 data-en="what i use" data-th="เครื่องมือที่ใช้">what i use</h3>
+          <div class="tag-list">
+            <span class="tag">Python</span>
+            <span class="tag">C</span>
+            <span class="tag">Kali</span>
+            <span class="tag">Obsidian</span>
+            <span class="tag">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GALLERY SECTION ==================== -->
+  <section class="section gallery-section" id="gallery">
+    <img class="section-decor music-decor-monster" src="img/idk/music-monster.png" alt="" aria-hidden="true" />
+    <img class="section-decor music-decor-headphones" src="img/idk/music-headphones.png" alt="" aria-hidden="true" />
+    <img class="section-decor music-decor-cd" src="img/idk/music-cd.png" alt="" aria-hidden="true" />
+    <img class="section-decor music-decor-soundwave" src="img/idk/music-soundwave.png" alt="" aria-hidden="true" />
+    <img class="section-decor music-decor-soundcircle" src="img/idk/music-soundcircle.png" alt="" aria-hidden="true" />
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-kicker">
+          <span data-en="music" data-th="เพลง">music</span>
+        </p>
+        <h2 class="section-title section-title-deco">
+          <span data-en="what i loop" data-th="เพลงที่ฟังวนๆ">what i loop</span>
+          <img class="heading-flutter" src="img/idk/hero-butterfly.png" alt="" aria-hidden="true" />
+        </h2>
+        <p class="section-desc" data-en="mostly underground. headphones on. lab open."
+          data-th="ส่วนใหญ่แนวอันเดอร์กราวด์ ใส่หูฟัง เปิดแล็ปทิ้งไว้">mostly underground. headphones on. lab open.</p>
+      </div>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item reveal-card" id="card-music1">
+          <img src="img/music/1.jpg" alt="Music 1">
+          <div class="music-player-box">
+            <audio id="music1" src="music/song/1.mp3" preload="metadata"></audio>
+            <div class="music-info">
+              <span class="m-title">misery.</span>
+              <span class="m-artist">pupsies</span>
+            </div>
+            <div class="music-controls">
+              <button class="m-btn" onclick="toggleMusic('music1', this)">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path class="icon-path" d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="m-progress-container">
+                <div class="m-progress" id="progress-music1"></div>
+              </div>
+              <span class="m-time" id="time-music1">0:00 / 0:00</span>
+            </div>
+            <div class="music-vol">
+              <svg class="vol-icon" id="volicon-music1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <polygon points="10 5 5 9 1 9 1 15 5 15 10 19 10 5"></polygon>
+                <path d="M14 9a3 3 0 0 1 0 6"></path>
+                <path d="M17 7a6 6 0 0 1 0 10"></path>
+              </svg>
+              <input type="range" class="vol-range" id="vol-music1" min="0" max="1" step="0.01" value="0.5" oninput="setVol('music1', this.value)">
+            </div>
+          </div>
+        </div>
+        <div class="gallery-item reveal-card" id="card-music2">
+          <img src="img/music/2.jpg" alt="Music 2">
+          <div class="music-player-box">
+            <audio id="music2" src="music/song/2.mp3" preload="metadata"></audio>
+            <div class="music-info">
+              <span class="m-title">stalk your socials</span>
+              <span class="m-artist">s0rrow</span>
+            </div>
+            <div class="music-controls">
+              <button class="m-btn" onclick="toggleMusic('music2', this)">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path class="icon-path" d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="m-progress-container">
+                <div class="m-progress" id="progress-music2"></div>
+              </div>
+              <span class="m-time" id="time-music2">0:00 / 0:00</span>
+            </div>
+            <div class="music-vol">
+              <svg class="vol-icon" id="volicon-music2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <polygon points="10 5 5 9 1 9 1 15 5 15 10 19 10 5"></polygon>
+                <path d="M14 9a3 3 0 0 1 0 6"></path>
+                <path d="M17 7a6 6 0 0 1 0 10"></path>
+              </svg>
+              <input type="range" class="vol-range" id="vol-music2" min="0" max="1" step="0.01" value="0.5" oninput="setVol('music2', this.value)">
+            </div>
+          </div>
+        </div>
+        <div class="gallery-item reveal-card" id="card-music3">
+          <img src="img/music/3.jpg" alt="Music 3">
+          <div class="music-player-box">
+            <audio id="music3" src="music/song/3.mp3" preload="metadata"></audio>
+            <div class="music-info">
+              <span class="m-title">sometimes</span>
+              <span class="m-artist">Mattyeux, Princess Chelsea</span>
+            </div>
+            <div class="music-controls">
+              <button class="m-btn" onclick="toggleMusic('music3', this)">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path class="icon-path" d="M8 5v14l11-7z"/></svg>
+              </button>
+              <div class="m-progress-container">
+                <div class="m-progress" id="progress-music3"></div>
+              </div>
+              <span class="m-time" id="time-music3">0:00 / 0:00</span>
+            </div>
+            <div class="music-vol">
+              <svg class="vol-icon" id="volicon-music3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <polygon points="10 5 5 9 1 9 1 15 5 15 10 19 10 5"></polygon>
+                <path d="M14 9a3 3 0 0 1 0 6"></path>
+                <path d="M17 7a6 6 0 0 1 0 10"></path>
+              </svg>
+              <input type="range" class="vol-range" id="vol-music3" min="0" max="1" step="0.01" value="0.5" oninput="setVol('music3', this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GLOBE SECTION ==================== -->
+  <section class="section globe-section" id="globe">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-kicker">
+          <span data-en="stack" data-th="สแตก">stack</span>
+        </p>
+        <h2 class="section-title">
+          <span data-en="skills " data-th="ทักษะ ">skills </span><span class="heading-suffix">&lt;/&gt;</span>
+        </h2>
+        <p class="section-desc"
+          data-en="stuff i actually use — click an icon if you want the short version."
+          data-th="เครื่องมือที่ใช้จริง กดไอคอนถ้าอยากดูคำอธิบายสั้นๆ">
+          stuff i actually use — click an icon if you want the short version.
+        </p>
+      </div>
+      <div class="globe-stage">
+        <img class="globe-deco globe-deco-clock" src="img/idk/globe-clock.png" alt="" loading="lazy" decoding="async" />
+        <img class="globe-deco globe-deco-star" src="img/idk/globe-star.png" alt="" loading="lazy" decoding="async" />
+        <img class="globe-deco globe-deco-planet" src="img/idk/globe-planet.png" alt="" loading="lazy" decoding="async" />
+        <img class="globe-deco globe-deco-error" src="img/idk/globe-error.png" alt="" loading="lazy" decoding="async" />
+        <div class="globe-interactive-wrap reveal" id="globeInteractiveWrap">
+          <div class="globe-card" id="globeCard">
+            <div class="globe-container">
+              <canvas id="globeCanvas"></canvas>
+              <div class="orbit-ring">
+                <div class="orbit-icon orbit-icon-1" title="Python" data-skill="Python"
+                  data-desc-en="main language i write in — scripts, automation, whatever needs doing."
+                  data-desc-th="ภาษาหลักที่ใช้เขียน สคริปต์ งานอัตโนมัติ ทำได้หมด">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="#3776ab"
+                      d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.007 2.752h5.814v.826H3.9S0 5.789 0 11.969c0 6.18 3.403 5.96 3.403 5.96h2.03v-2.867s-.109-3.42 3.35-3.42h5.766s3.24.052 3.24-3.148V3.202S18.28 0 11.914 0zM8.708 1.85c.578 0 1.046.47 1.046 1.052 0 .581-.468 1.052-1.046 1.052-.579 0-1.047-.471-1.047-1.052 0-.582.468-1.052 1.047-1.052z" />
+                    <path fill="#ffd43b"
+                      d="M12.087 24c6.093 0 5.713-2.656 5.713-2.656l-.007-2.752h-5.814v-.826h8.121s3.9.445 3.9-5.735c0-6.18-3.403-5.96-3.403-5.96h-2.03v2.867s.109 3.42-3.35 3.42H9.45s-3.24-.052-3.24 3.148v5.292S5.72 24 12.087 24zm3.206-1.85c-.578 0-1.046-.47-1.046-1.052 0-.581.468-1.052 1.046-1.052.579 0 1.047.471 1.047 1.052 0 .582-.468 1.052-1.047 1.052z" />
+                  </svg>
+                </div>
+                <div class="orbit-icon orbit-icon-2" title="Cyber Security" data-skill="Cyber Security"
+                  data-desc-en="the direction i actually want to go — CTFs, pentesting, poking at how things break."
+                  data-desc-th="ทางที่อยากไปจริงๆ เล่น CTF ลองเทสระบบ ดูว่าอะไรพังยังไง">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <rect x="9" y="11" width="6" height="5" rx="1"></rect>
+                    <path d="M10 11V9a2 2 0 1 1 4 0v2"></path>
+                  </svg>
+                </div>
+                <div class="orbit-icon orbit-icon-3" title="C" data-skill="C"
+                  data-desc-en="learning it for the fundamentals — memory, pointers, how computers actually work."
+                  data-desc-th="กำลังเรียนเพื่อพื้นฐาน memory, pointer และวิธีที่คอมทำงานจริงๆ">
+                  <svg viewBox="0 0 128 128" width="20" height="20">
+                    <polygon fill="#5c6bc0" points="64,4 12,34 12,94 64,124" />
+                    <polygon fill="#3f51b5" points="64,4 116,34 116,94 64,64" />
+                    <polygon fill="#283593" points="64,124 116,94 64,64" />
+                    <path fill="#ffffff" d="M85 82c-5.5 6.5-13 10-21 10-17 0-30-13-30-29s13-29 30-29c8 0 15.5 3.5 21 10l-14 14c-2-2-4.5-3-7-3-7.5 0-13 6-13 14s5.5 14 13 14c2.5 0 5-1 7-3L85 82z"/>
+                  </svg>
+                </div>
+                <div class="orbit-icon orbit-icon-4" title="HTML5" data-skill="HTML5"
+                  data-desc-en="markup for whatever i'm building on the web — like this site."
+                  data-desc-th="มาร์กอัปสำหรับเว็บที่ทำ เช่นเว็บนี้เลย">
+                  <svg class="html5-icon" viewBox="0 0 128 128" width="22" height="22" aria-hidden="true">
+                    <path fill="#e44d26" d="M19.13 114.09 9.89 10.43h101.67l-9.25 103.62-41.64 11.54z"/>
+                    <path fill="#f16529" d="m64 116.78 33.65-9.33 7.9-88.55H64z"/>
+                    <path fill="#ebebeb" d="M64 57.32H47.16L46 44.32h18V31.61H32.09l.3 3.4 3.12 35H64zm0 33.05-.06.02-14.17-3.83-.91-10.19H36.09l1.78 19.98 26.06 7.23.07-.02z"/>
+                    <path fill="#fff" d="M63.96 57.32v12.7h15.67l-1.48 16.53-14.19 3.83v13.19l26.08-7.22.19-2.15 3-33.48.31-3.4H90.1zm0-25.71v12.71h30.73l.26-2.86.58-6.45.3-3.4z"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <p class="globe-hint" id="globeHint" data-en="click an icon" data-th="กดไอคอนดูได้">click an icon</p>
+          </div>
+
+          <!-- Detached separate card for skill info -->
+          <div class="skill-detail-card" id="skillDetailCard" aria-hidden="true">
+            <button class="skill-panel-close" id="skillPanelClose" type="button" aria-label="Close">&times;</button>
+            <div class="skill-detail-header">
+              <span class="skill-panel-icon" id="skillPanelIcon"></span>
+              <div class="skill-title-group">
+                <span class="skill-kicker" data-en="selected skill" data-th="ทักษะที่เลือก">selected skill</span>
+                <h3 id="skillPanelName">Python</h3>
+              </div>
+            </div>
+            <p class="skill-detail-desc" id="skillPanelDesc" data-en="" data-th=""></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECTS SECTION ==================== -->
+  <section class="section" id="projects">
+    <img class="section-decor section-decor-tint project-decor-jellyfish" src="img/idk/project-jellyfish.png" alt="" aria-hidden="true" />
+    <img class="section-decor project-decor-onigiri" src="img/idk/project-onigiri.png" alt="" aria-hidden="true" />
+    <img class="section-decor project-decor-soundwave" src="img/idk/project-soundwave.png" alt="" aria-hidden="true" />
+    <img class="section-decor project-decor-cross" src="img/idk/project-cross.png" alt="" aria-hidden="true" />
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-kicker">
+          <span data-en="projects" data-th="ผลงาน">projects</span>
+        </p>
+        <h2 class="section-title" data-en="things i built" data-th="สิ่งที่ผมสร้าง">things i built</h2>
+        <p class="section-desc"
+          data-en="small stuff from learning — not a polished agency portfolio, just real practice."
+          data-th="ของเล็กๆจากการเรียนรู้ ไม่ใช่พอร์ตโฟลิโอมืออาชีพ แค่ฝึกจริงๆ">small stuff from learning — not a
+          polished agency portfolio, just real practice.</p>
+      </div>
+
+      <div class="projects-grid">
+        <article class="project-card reveal-card" tabindex="0" role="button" aria-haspopup="dialog">
+          <div class="project-preview">
+            <div class="project-mockup">
+              <div class="mockup-bar"><span></span><span></span><span></span></div>
+              <div class="mockup-body">
+                <div class="mockup-lines"><span></span><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 data-en="this site" data-th="เว็บนี้">this site</h3>
+            <p data-en="yeah — the one you're on. dark theme, thai/eng toggle, music players. built it myself."
+              data-th="ใช่ อันนี้แหละที่คุณกำลังดู ธีมมืด สลับไทย/อังกฤษได้ มีเล่นเพลงด้วย ทำเองหมด">yeah — the one
+              you're on. dark theme, thai/eng toggle, music players. built it myself.</p>
+            <div class="tag-list">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+            <span class="project-view"
+              data-en="view details →" data-th="ดูรายละเอียด →"
+              data-full-en="built from scratch with plain html, css, and js — no frameworks. dark theme by default, a language toggle for thai/eng, and a canvas-drawn globe in the skills section. still tweaking it whenever i get a new idea."
+              data-full-th="ทำเองทั้งหมดด้วย html css js ธรรมดา ไม่มี framework ธีมมืดเป็นค่าเริ่มต้น สลับภาษาไทย/อังกฤษได้ แล้วก็มีโลกที่วาดด้วย canvas ในส่วน skills ยังแก้ๆเพิ่มเรื่อยๆตามที่คิดออก">view
+              details →</span>
+          </div>
+        </article>
+
+        <article class="project-card reveal-card" tabindex="0" role="button" aria-haspopup="dialog">
+          <div class="project-preview">
+            <div class="project-mockup">
+              <div class="mockup-bar"><span></span><span></span><span></span></div>
+              <div class="mockup-body">
+                <div class="mockup-lines"><span></span><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 data-en="discord bot" data-th="ดิสคอร์ดบอท">discord bot</h3>
+            <p data-en="python bot that watches voice time and hands out roles. rough edges, works for my server."
+              data-th="บอทไพธอนที่จับเวลาในช่องเสียงแล้วแจก role ให้ ยังมีจุดหยาบๆบ้าง แต่ใช้งานได้จริงในเซิร์ฟผม">python
+              bot that watches voice time and hands out roles. rough edges, works for my server.</p>
+            <div class="tag-list">
+              <span class="tag">Python</span>
+              <span class="tag">Discord.py</span>
+              <span class="tag">JSON</span>
+            </div>
+            <span class="project-view"
+              data-en="view details →" data-th="ดูรายละเอียด →"
+              data-full-en="runs in the background of my discord server, tracking how long each member spends in voice channels and handing out roles once they hit certain milestones. written in python with discord.py, state saved to a local json file. nothing fancy, just does its job."
+              data-full-th="รันอยู่หลังบ้านในดิสคอร์ดเซิร์ฟผม จับเวลาที่แต่ละคนอยู่ในช่องเสียง แล้วแจก role ให้ตามเวลาที่สะสมได้ เขียนด้วย python กับ discord.py เก็บข้อมูลไว้ในไฟล์ json ธรรมดาๆ ไม่มีอะไรซับซ้อน แค่ทำงานได้จริง">view
+              details →</span>
+          </div>
+        </article>
+
+        <article class="project-card reveal-card" tabindex="0" role="button" aria-haspopup="dialog">
+          <div class="project-preview">
+            <div class="project-mockup">
+              <div class="mockup-bar"><span></span><span></span><span></span></div>
+              <div class="mockup-body">
+                <div class="mockup-lines"><span></span><span></span><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-info">
+            <h3 data-en="image splitter" data-th="ตัวแบ่งรูปภาพ">image splitter</h3>
+            <p data-en="canvas tool that chops a pic into equal pieces. made it when i needed it, kept it around."
+              data-th="เครื่องมือ canvas ที่ตัดรูปแบ่งเป็นส่วนเท่าๆกัน ทำตอนที่ต้องใช้ แล้วก็เก็บไว้ใช้ต่อ">canvas tool
+              that chops a pic into equal pieces. made it when i needed it, kept it around.</p>
+            <div class="tag-list">
+              <span class="tag">HTML Canvas</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">CSS</span>
+            </div>
+            <span class="project-view"
+              data-en="view details →" data-th="ดูรายละเอียด →"
+              data-full-en="a small browser tool built with html canvas — upload an image, pick how many rows and columns to slice it into, and download each piece separately. made it for a specific project that needed a grid-post effect, then just kept using it."
+              data-full-th="เครื่องมือเว็บเล็กๆที่ทำด้วย html canvas อัพโหลดรูป เลือกว่าจะแบ่งกี่แถวกี่คอลัมน์ แล้วดาวน์โหลดแต่ละชิ้นแยกได้ ทำตอนที่ต้องใช้เอฟเฟกต์แบบโพสต์เป็นกริด แล้วก็เก็บไว้ใช้เรื่อยมา">view
+              details →</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT SECTION ==================== -->
+  <section class="section contact-section" id="contact">
+    <img class="section-decor contact-decor-shatter" src="img/idk/contact-shatter.png" alt="" aria-hidden="true" />
+    <img class="section-decor section-decor-tint contact-decor-fingers" src="img/idk/contact-fingers.png" alt="" aria-hidden="true" />
+    <img class="section-decor contact-decor-figure" src="img/idk/contact-figure.png" alt="" aria-hidden="true" />
+    <img class="section-decor contact-decor-dream" src="img/idk/contact-dream.png" alt="" aria-hidden="true" />
+    <img class="section-decor contact-decor-wings" src="img/idk/contact-wings.png" alt="" aria-hidden="true" />
+    <img class="section-decor contact-decor-sparkle" src="img/idk/contact-sparkle.png" alt="" aria-hidden="true" />
+    <div class="section-inner">
+      <div class="contact-card reveal">
+        <p class="section-kicker">
+          <span data-en="contact" data-th="ติดต่อ">contact</span>
+        </p>
+        <h2 class="section-title" data-en="hit me up." data-th="ทักมาได้เลย">hit me up.</h2>
+        <p class="section-desc" data-en="questions, collab ideas, or just saying hi — any of these work."
+          data-th="มีคำถาม อยากคุยงาน หรือแค่มาทักก็ได้ ทางไหนก็โอเค">questions, collab ideas, or just saying hi — any
+          of these work.</p>
+        <div class="contact-links">
+          <a href="https://github.com/summeryoyo4" target="_blank" class="contact-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+            <span>GitHub</span>
+          </a>
+
+          <a href="https://instagram.com/s3morin" target="_blank" class="contact-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+            </svg>
+            <span>Instagram</span>
+          </a>
+          <a href="mailto:contact@example.com" class="contact-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <span data-en="Email" data-th="อีเมล">Email</span>
+          </a>
+          <a href="https://guns.lol" target="_blank" rel="noopener noreferrer" class="contact-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M7,5H23V9H22V10H16A1,1 0 0,0 15,11V12A2,2 0 0,1 13,14H9.62C9.24,14 8.89,14.22 8.72,14.56L6.27,19.45C6.1,19.79 5.76,20 5.38,20H2C2,20 -1,20 3,14C3,14 6,10 2,10V5H3L3.5,4H6.5L7,5M14,12V11A1,1 0 0,0 13,10H12C12,10 11,11 12,12A2,2 0 0,1 10,10A1,1 0 0,0 9,11V12A1,1 0 0,0 10,13H13A1,1 0 0,0 14,12Z" />
+            </svg>
+            <span>guns.lol</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="section-header reveal" style="margin-top: 4.5rem;">
+        <p class="section-kicker">
+          <span data-en="thanks" data-th="ขอบคุณ">thanks</span>
+        </p>
+        <h2 class="section-title" data-en="people who helped" data-th="คนที่ช่วยผม">people who helped</h2>
+        <p class="section-desc" data-en="friends who stuck around while i figured this out."
+          data-th="เพื่อนที่อยู่ด้วยกันตลอดที่ผมค่อยๆหาทางไป">friends who stuck around while i figured this out.</p>
+      </div>
+
+      <div class="supporter-entry reveal-card">
+        <button class="supporter-toggle" id="supporterToggle" type="button" aria-haspopup="dialog"
+          aria-controls="supporterModalOverlay">
+          <span data-en="see them" data-th="ดูพวกเขา">see them</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROJECT DETAILS MODAL ==================== -->
+  <div class="project-modal-overlay" id="projectModalOverlay">
+    <div class="project-modal">
+      <button class="project-modal-close" id="projectModalClose" type="button" aria-label="Close">&times;</button>
+      <div class="project-modal-preview">
+        <div class="project-mockup">
+          <div class="mockup-bar"><span></span><span></span><span></span></div>
+          <div class="mockup-body">
+            <div class="mockup-lines"><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="project-modal-info">
+        <h3 id="projectModalTitle"></h3>
+        <p id="projectModalDesc"></p>
+        <div class="tag-list" id="projectModalTags"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SUPPORTERS MODAL ==================== -->
+  <div class="supporter-modal-overlay" id="supporterModalOverlay">
+    <div class="supporter-modal" role="dialog" aria-modal="true" aria-labelledby="supporterModalTitle">
+      <button class="supporter-modal-close" id="supporterModalClose" type="button" aria-label="Close">&times;</button>
+      <h3 class="supporter-modal-title" id="supporterModalTitle" data-en="people who helped" data-th="คนที่ช่วยผม">
+        people who helped</h3>
+      <div class="supporter-grid">
+        <article class="supporter-card">
+          <img class="supporter-photo supporter-photo-doodle" src="img/supporter/bunny.png" alt="Name">
+          <h3>Name</h3>
+          <p>keep building. every small thing still counts.</p>
+        </article>
+
+        <article class="supporter-card">
+          <svg class="supporter-photo supporter-photo-placeholder" viewBox="0 0 200 200" role="img" aria-label="Name">
+            <rect width="200" height="200" rx="18" fill="var(--surface)" />
+            <circle cx="100" cy="80" r="34" fill="var(--text-muted)" opacity="0.55" />
+            <path d="M38 174c5-44 30-66 62-66s57 22 62 66" fill="var(--text-muted)" opacity="0.55" />
+          </svg>
+          <h3>Name</h3>
+          <p>a quiet supporter behind the work and the ideas.</p>
+        </article>
+
+        <article class="supporter-card">
+          <svg class="supporter-photo supporter-photo-placeholder" viewBox="0 0 200 200" role="img" aria-label="Name">
+            <rect width="200" height="200" rx="18" fill="var(--surface)" />
+            <circle cx="100" cy="80" r="34" fill="var(--text-muted)" opacity="0.55" />
+            <path d="M38 174c5-44 30-66 62-66s57 22 62 66" fill="var(--text-muted)" opacity="0.55" />
+          </svg>
+          <h3>Name</h3>
+          <p>good projects grow better when someone believes in them.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="logo-bracket">&lt;</span><span class="logo-name">0ii.dev</span><span
+          class="logo-bracket">&gt;</span>
+      </div>
+      <p class="footer-copy" data-en="0ii" data-th="0ii">0ii</p>
+      <div class="footer-socials">
+        <a href="https://github.com/summeryoyo4" target="_blank" aria-label="GitHub" class="social-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
