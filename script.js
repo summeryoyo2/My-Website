@@ -983,7 +983,8 @@ function spawnRing(parentEl) {
 
 // ================================================================
 // ================================================================
-//  3D GLOBE (Minimalist & Compact)
+// ================================================================
+//  3D GLOBE (Minimalist, Straight & Perfectly Centered)
 // ================================================================
 (function() {
   try {
@@ -991,7 +992,7 @@ function spawnRing(parentEl) {
     if (!gc) return;
     const gctx = gc.getContext('2d');
     const isMobile = window.innerWidth < 680;
-    const CSS_SIZE = isMobile ? 155 : 255;
+    const CSS_SIZE = isMobile ? 180 : 260;
     const dpr = window.devicePixelRatio || 1;
     gc.width = CSS_SIZE * dpr;
     gc.height = CSS_SIZE * dpr;
@@ -1000,11 +1001,8 @@ function spawnRing(parentEl) {
     gctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const SIZE = CSS_SIZE;
-    const R = isMobile ? 68 : 112;
+    const R = isMobile ? 68 : 100;
     const cx = SIZE / 2, cy = SIZE / 2;
-    const tiltX = 0.28;
-    const cosT = Math.cos(tiltX);
-    const sinT = Math.sin(tiltX);
     const TAU = Math.PI * 2;
     const DEG = 180 / Math.PI;
     let angle = 0;
@@ -1041,10 +1039,10 @@ function spawnRing(parentEl) {
       const theta = Math.acos(2 * Math.random() - 1);
       const cosTheta = Math.cos(theta);
       const phi = Math.random() * TAU;
-      const lat = 90 - Math.acos(cosTheta) * DEG + (Math.random() - 0.5) * 8;
+      const lat = 90 - Math.acos(cosTheta) * DEG + (Math.random() - 0.5) * 6;
       let lon = phi * DEG;
       if (lon > 180) lon -= 360;
-      lon += (Math.random() - 0.5) * 8;
+      lon += (Math.random() - 0.5) * 6;
 
       dots.push({
         sinTheta: Math.sin(theta),
@@ -1070,91 +1068,80 @@ function spawnRing(parentEl) {
         angle += 0.0035;
         const isLight = document.body.classList.contains('theme-light');
 
-        // Clean Minimal Sphere
+        // Perfectly Centered Sphere Mask
         gctx.save();
         gctx.beginPath();
         gctx.arc(cx, cy, R, 0, TAU);
         gctx.clip();
 
-        // Subtle gradient inside globe
-        const sphere = gctx.createRadialGradient(
-          cx - R * 0.35,
-          cy - R * 0.38,
-          R * 0.08,
-          cx,
-          cy,
-          R * 1.05
-        );
+        // Centered Smooth Radial Gradient (No skewed/lopsided spotlight)
+        const sphere = gctx.createRadialGradient(cx, cy, R * 0.1, cx, cy, R);
         if (isLight) {
-          sphere.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-          sphere.addColorStop(0.5, 'rgba(240, 244, 252, 0.85)');
-          sphere.addColorStop(1, 'rgba(220, 230, 244, 0.7)');
+          sphere.addColorStop(0, 'rgba(255, 255, 255, 0.96)');
+          sphere.addColorStop(0.7, 'rgba(238, 243, 250, 0.9)');
+          sphere.addColorStop(1, 'rgba(215, 226, 240, 0.85)');
         } else {
-          sphere.addColorStop(0, 'rgba(255, 255, 255, 0.07)');
-          sphere.addColorStop(0.4, 'rgba(20, 28, 42, 0.6)');
-          sphere.addColorStop(1, 'rgba(6, 9, 15, 0.75)');
+          sphere.addColorStop(0, 'rgba(18, 24, 38, 0.82)');
+          sphere.addColorStop(0.65, 'rgba(10, 14, 24, 0.92)');
+          sphere.addColorStop(1, 'rgba(4, 7, 13, 0.98)');
         }
         gctx.fillStyle = sphere;
         gctx.fillRect(cx - R, cy - R, R * 2, R * 2);
 
-        // Minimal grid lines
-        gctx.strokeStyle = isLight ? 'rgba(50, 70, 100, 0.09)' : 'rgba(255, 255, 255, 0.06)';
-        gctx.lineWidth = 0.55;
+        // Perfectly Straight & Level Grid Lines (Angle = 0, no tilt)
+        gctx.strokeStyle = isLight ? 'rgba(50, 70, 100, 0.1)' : 'rgba(255, 255, 255, 0.07)';
+        gctx.lineWidth = 0.6;
 
         for (let latitude = -60; latitude <= 60; latitude += 30) {
           const latitudeRad = latitude / DEG;
           const y = Math.sin(latitudeRad) * R;
           const latitudeRadius = Math.cos(latitudeRad) * R;
           gctx.beginPath();
-          gctx.ellipse(cx, cy + y, latitudeRadius, latitudeRadius * 0.12, -0.08, 0, TAU);
+          gctx.ellipse(cx, cy - y, latitudeRadius, latitudeRadius * 0.1, 0, 0, TAU);
           gctx.stroke();
         }
 
-        for (const longitudeWidth of [0.35, 0.7]) {
+        for (const longitudeWidth of [0.33, 0.66, 0.95]) {
           gctx.beginPath();
-          gctx.ellipse(cx, cy, R * longitudeWidth, R, -0.08, 0, TAU);
+          gctx.ellipse(cx, cy, R * longitudeWidth, R, 0, 0, TAU);
           gctx.stroke();
         }
         gctx.restore();
 
-        // Minimal Outer Boundary Ring
+        // Perfectly Symmetrical Outer Rim
         gctx.beginPath();
         gctx.arc(cx, cy, R, 0, TAU);
-        gctx.strokeStyle = isLight ? 'rgba(90, 115, 155, 0.22)' : 'rgba(255, 255, 255, 0.18)';
+        gctx.strokeStyle = isLight ? 'rgba(90, 115, 155, 0.25)' : 'rgba(255, 255, 255, 0.22)';
         gctx.lineWidth = 1;
         gctx.stroke();
 
-        // Rotating Landmass Dots
+        // Rotating Landmass Dots (Straight vertical axis of rotation)
         for (const dot of dots) {
-          let x = R * dot.sinTheta * Math.cos(dot.phi + angle);
-          let y = R * dot.cosTheta;
-          let z = R * dot.sinTheta * Math.sin(dot.phi + angle);
+          const x = R * dot.sinTheta * Math.sin(dot.phi + angle);
+          const y = R * dot.cosTheta;
+          const z = R * dot.sinTheta * Math.cos(dot.phi + angle);
 
-          const y2 = y * cosT - z * sinT;
-          const z2 = y * sinT + z * cosT;
-          y = y2; z = z2;
+          if (z < 0) continue; // Only front hemisphere
 
-          if (z < 0) continue;
-
-          const depth = (z + R) / (2 * R);
+          const depth = z / R;
           const blink = Math.sin(angle * 18 + dot.blinkOffset) * 0.5 + 0.5;
 
           if (dot.onLand) {
             const alpha = isLight
-              ? (0.4 + depth * 0.55) * (0.8 + blink * 0.2)
-              : (0.35 + depth * 0.6) * (0.8 + blink * 0.2);
+              ? (0.45 + depth * 0.5) * (0.85 + blink * 0.15)
+              : (0.4 + depth * 0.55) * (0.85 + blink * 0.15);
             gctx.fillStyle = isLight
               ? `rgba(20, 32, 52, ${alpha})`
               : `rgba(255, 255, 255, ${alpha})`;
             gctx.beginPath();
-            gctx.arc(cx + x, cy - y, 0.6 + dot.sizeOffset * 0.8, 0, TAU);
+            gctx.arc(cx + x, cy - y, 0.65 + dot.sizeOffset * 0.75, 0, TAU);
             gctx.fill();
-          } else if (dot.sizeOffset > 0.95) {
+          } else if (dot.sizeOffset > 0.94) {
             gctx.fillStyle = isLight
-              ? `rgba(50, 75, 110, ${0.06 + depth * 0.08})`
-              : `rgba(255, 255, 255, ${0.08 + depth * 0.12})`;
+              ? `rgba(50, 75, 110, ${0.08 + depth * 0.08})`
+              : `rgba(255, 255, 255, ${0.1 + depth * 0.1})`;
             gctx.beginPath();
-            gctx.arc(cx + x, cy - y, 0.4, 0, TAU);
+            gctx.arc(cx + x, cy - y, 0.45, 0, TAU);
             gctx.fill();
           }
         }
