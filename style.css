@@ -1397,8 +1397,8 @@ body.theme-light .heading-flutter {
 }
 .globe-stage {
   position: relative;
-  min-height: 525px;
-  margin-bottom: 95px;
+  min-height: 380px;
+  margin-bottom: 40px;
 }
 .globe-deco {
   position: absolute;
@@ -1729,15 +1729,18 @@ body.theme-light .skill-panel-icon {
   }
 
   .globe-interactive-wrap {
-    gap: 18px;
     max-width: 100%;
+  }
+
+  .globe-interactive-wrap.has-skill-active {
+    gap: 18px;
   }
 
   .globe-card {
     width: min(100%, 340px);
   }
 
-  .skill-detail-card {
+  .skill-detail-card.is-active {
     width: 290px;
   }
 }
